@@ -7,9 +7,8 @@ public abstract class AliveObject : MonoBehaviour, IAlive
     public ReadOnlyReactiveProperty<bool> AliveObjectDie;
 
     protected DisposableBag _disposables = new();
-    private Armor _armor;
 
-    public virtual void Awake()
+    protected virtual void Awake()
     {
         Init();
     }
@@ -21,15 +20,14 @@ public abstract class AliveObject : MonoBehaviour, IAlive
 
     public virtual void TakeDamage(int damage)
     {
-        int reducedDamage = _armor != null ? _armor.CalculateReducedDamage(damage) : damage;
-        AliveObjectHealthPoint.Value -= reducedDamage;
+        AliveObjectHealthPoint.Value -= damage;
         AliveObjectHealthPoint.Value = Mathf.Clamp(AliveObjectHealthPoint.Value, IAlive.MinHealthPoint, IAlive.MaxHealthPoint);
-        Debug.Log($"{gameObject.name} получил {reducedDamage} урона. Осталось здоровья: {AliveObjectHealthPoint.Value}");
     }
 
-    public void EquipArmor(Armor armor)
+    public void TakeHeal(int healthPoint)
     {
-        _armor = armor;
+        AliveObjectHealthPoint.Value += healthPoint;
+        AliveObjectHealthPoint.Value = Mathf.Clamp(AliveObjectHealthPoint.Value, IAlive.MinHealthPoint, IAlive.MaxHealthPoint);
     }
 
     public virtual void Die()
@@ -42,5 +40,9 @@ public abstract class AliveObject : MonoBehaviour, IAlive
         AliveObjectHealthPoint.Value = IAlive.MaxHealthPoint;
         AliveObjectDie = AliveObjectHealthPoint.Select(amount => amount <= 0).ToReadOnlyReactiveProperty();
         AliveObjectDie.Where(isDead => isDead).Subscribe(_ => Die()).AddTo(ref _disposables);
+        AliveObjectHealthPoint.Subscribe(_ =>
+        Debug.Log($"{gameObject.name} changed HP. Now: {AliveObjectHealthPoint.Value} HP"));
     }
 }
+
+

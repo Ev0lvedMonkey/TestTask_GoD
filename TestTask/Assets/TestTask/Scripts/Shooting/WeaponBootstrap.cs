@@ -11,7 +11,7 @@ public class WeaponBootstrap : MonoBehaviour
     private WeaponViewModel _weaponViewModel;
     private Enemy _enemy;
 
-    private const string WeaponDataFolder = "ScriptableObjects/Weapons";
+    private const string WeaponDataFolder = "ScriptableObjects/WeaponsConfig";
 
     private void Awake()
     {
@@ -20,7 +20,8 @@ public class WeaponBootstrap : MonoBehaviour
 
     private void Init()
     {
-        _weaponViewModel = new(WeaponDataFolder, _enemy);
+        WeaponDataList weaponDataList = Resources.Load<WeaponDataList>(WeaponDataFolder);
+        _weaponViewModel = new(weaponDataList, _enemy);
         foreach (var item in _weaponButtonsList) 
             item.Init(_weaponViewModel);
         _shootButton.onClick.AddListener(_weaponViewModel.Shoot);
@@ -30,6 +31,5 @@ public class WeaponBootstrap : MonoBehaviour
     private void Construct(Enemy enemy)
     {
         _enemy = enemy;
-        Debug.Log($"Inject enemy succses");
     }
 }

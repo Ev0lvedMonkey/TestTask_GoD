@@ -9,9 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8c958e77ac5e5624f9ca20c0e757d72f, type: 3}
-  m_Name: AKData
+  m_Script: {fileID: 11500000, guid: dd0a9b242e189d4448c89c499ef80f46, type: 3}
+  m_Name: CapItem
   m_EditorClassIdentifier: 
-  _weaponType: 1
-  _weaponIcon: {fileID: -7122034313298620936, guid: e055fb901cc22ba44a0eb46454d2984c, type: 3}
-  _damage: 9
+  _name: Cap
+  _weight: 0.1
+  _maxStackAmount: 1
+  _sprite: {fileID: -1112979873743293875, guid: 30d18238815b8a5478690bd4e35dcd85, type: 3}
+  _type: 0
+  _defense: 3

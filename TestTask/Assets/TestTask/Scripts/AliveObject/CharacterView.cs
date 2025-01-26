@@ -7,7 +7,6 @@ public class CharacterView : AliveObjectView
     private void Construct(Character character)
     {
         _aliveObject = character;
-        Debug.Log($"Inject {gameObject.name} succses");
     }
 
 }

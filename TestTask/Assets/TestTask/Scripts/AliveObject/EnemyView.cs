@@ -7,6 +7,5 @@ public class EnemyView : AliveObjectView
     private void Construct(Enemy enemy)
     {
         _aliveObject = enemy;
-        Debug.Log($"Inject {gameObject.name} succses");
     }
 }

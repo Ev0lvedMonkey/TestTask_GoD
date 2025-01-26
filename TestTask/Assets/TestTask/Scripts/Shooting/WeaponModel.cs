@@ -1,0 +1,27 @@
+﻿using System;
+using UnityEngine;
+
+public enum WeaponType
+{
+    Pistol,
+    AK
+}
+
+[Serializable]
+public class WeaponModel
+{
+    [SerializeField] private WeaponType _weaponType;
+    [SerializeField] private Sprite _weaponIcon;
+    [SerializeField] private int _damage;
+
+    public WeaponType WeaponType => _weaponType;
+    public Sprite WeaponIcon => _weaponIcon;
+    public int Damage => _damage;
+
+    public WeaponModel(WeaponType weaponType, Sprite weaponIcon, int damage)
+    {
+        _weaponType = weaponType;
+        _weaponIcon = weaponIcon;
+        _damage = damage;
+    }
+}

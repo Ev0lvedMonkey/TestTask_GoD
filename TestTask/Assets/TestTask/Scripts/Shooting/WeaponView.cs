@@ -37,9 +37,8 @@ public class WeaponView : MonoBehaviour
         _viewModel.SelectedWeapon.Subscribe(UpdateUI);
     }
 
-    private void UpdateUI(WeaponData weapon)
+    private void UpdateUI(WeaponModel weapon)
     {
         _pistolBackground.color = weapon.WeaponType == _weaponType ? SelectedColor : UnselectedColor;
-        Debug.Log($"Выбран {weapon.WeaponType}");
     }
 }

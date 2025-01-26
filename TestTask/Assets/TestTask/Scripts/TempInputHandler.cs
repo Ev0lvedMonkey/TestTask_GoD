@@ -8,8 +8,6 @@ public class TempInputHandler : MonoBehaviour
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.A))
-            _character.TakeDamage(10);
-        if (Input.GetKeyDown(KeyCode.D))
-            _enemy.TakeDamage(10);
+            _character.TakeHeal(50);
     }
 }

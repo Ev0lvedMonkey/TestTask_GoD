@@ -1,30 +1,22 @@
 ﻿using R3;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
-
-public enum WeaponType
-{
-    Pistol,
-    AK
-}
 
 public class WeaponViewModel
 {
-    public readonly ReactiveProperty<WeaponData> SelectedWeapon = new();
-    public readonly Dictionary<WeaponType, WeaponData> WeaponDictionary;
+    public readonly ReactiveProperty<WeaponModel> SelectedWeapon = new();
+    public readonly Dictionary<WeaponType, WeaponModel> WeaponDictionary;
 
     private readonly Enemy _enemy;
 
-    public WeaponViewModel(string weaponDataFolder, Enemy enemy)
+    public WeaponViewModel(WeaponDataList weaponDataList, Enemy enemy)
     {
         _enemy = enemy;
-        WeaponDictionary = new Dictionary<WeaponType, WeaponData>
-        {
-            { WeaponType.Pistol, Resources.Load<WeaponData>($"{weaponDataFolder}/PistolData") },
-            { WeaponType.AK, Resources.Load<WeaponData>($"{weaponDataFolder}/AKData") }
-        };
 
-        SelectWeapon(WeaponType.Pistol);
+        WeaponDictionary = weaponDataList.Weapons.ToDictionary(weapon => weapon.WeaponType);
+
+        SelectWeapon(WeaponType.Pistol); 
     }
 
     public void SelectWeapon(WeaponType weaponType)
@@ -32,17 +24,15 @@ public class WeaponViewModel
         if (WeaponDictionary.TryGetValue(weaponType, out var weapon))
         {
             SelectedWeapon.Value = weapon;
-            Debug.Log($"Выбрано оружие: {SelectedWeapon.Value.WeaponType}");
         }
     }
 
     public void Shoot()
     {
-        if (SelectedWeapon != null)
+        if (SelectedWeapon.Value != null)
         {
             _enemy.TakeDamage(SelectedWeapon.Value.Damage);
-            Debug.Log($"Выстрел из {SelectedWeapon.Value.WeaponType}. Урон: {SelectedWeapon.Value.Damage}");
+            Debug.Log($"{SelectedWeapon.Value.WeaponType} shooted. Damage: {SelectedWeapon.Value.Damage}");
         }
     }
-
 }
