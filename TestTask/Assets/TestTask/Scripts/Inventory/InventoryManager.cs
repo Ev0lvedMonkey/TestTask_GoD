@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using Newtonsoft.Json;
 using UnityEngine;
 
 public class InventoryManager : MonoBehaviour
@@ -7,11 +9,77 @@ public class InventoryManager : MonoBehaviour
     [SerializeField] private List<InventorySlot> _slotsList;
     [SerializeField] private ItemDataList _itemDataList;
 
+    private const string SaveFileName = "inventory.json";
+    private string SaveFilePath => Path.Combine(Application.persistentDataPath, SaveFileName);
+
     private void Awake()
     {
         Init();
-        SetDefaultItem();
+        if (File.Exists(SaveFilePath))
+        {
+            LoadInventory();
+        }
+        else
+        {
+            SetDefaultItem();
+        }
         LogItemTypeAndSlotAmount();
+
+    }
+
+    private void OnApplicationQuit()
+    {
+        SaveInventory();
+    }
+
+    public void SaveInventory()
+    {
+        List<SlotData> slotDataList = new();
+
+        foreach (var slot in _slotsList)
+        {
+            if (slot.CurrentItem.Value != null)
+            {
+                SlotData slotData = new()
+                {
+                    SlotId = slot.SlotId,
+                    ItemType = slot.CurrentItem.Value.Type,
+                    Amount = slot.GetSlotAmount()
+                };
+                slotDataList.Add(slotData);
+            }
+        }
+
+        string json =
+            JsonConvert.SerializeObject(new InventoryData { Slots = slotDataList },
+            Newtonsoft.Json.Formatting.Indented);
+
+        File.WriteAllText(SaveFilePath, json);
+        Debug.Log("Inventory saved successfully!");
+    }
+
+    private void LoadInventory()
+    {
+        if (!File.Exists(SaveFilePath))
+        {
+            Debug.LogWarning("Save file not found. Initializing empty inventory.");
+            return;
+        }
+
+        string json = File.ReadAllText(SaveFilePath);
+        InventoryData inventoryData = JsonConvert.DeserializeObject<InventoryData>(json);
+
+        foreach (var slotData in inventoryData.Slots)
+        {
+            var slot = _slotsList.Find(s => s.SlotId == slotData.SlotId);
+            if (slot != null)
+            {
+                var item = GetItemByType(slotData.ItemType);
+                slot.SetItem(item, slotData.Amount);
+            }
+        }
+
+        Debug.Log("Inventory loaded successfully!");
     }
 
     private void LogItemTypeAndSlotAmount()
@@ -65,8 +133,11 @@ public class InventoryManager : MonoBehaviour
 
     private void Init()
     {
-        foreach (InventorySlot slot in _slotsList)
-            slot.Init();
+        for (int i = 0; i < _slotsList.Count; i++)
+        {
+            InventorySlot slot = _slotsList[i];
+            slot.Init(i);
+        }
     }
 
 

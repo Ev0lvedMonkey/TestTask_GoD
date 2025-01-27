@@ -7,24 +7,20 @@ using UnityEngine.UI;
 
 public class InventorySlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
+    public int SlotId;
+
     [Header("UI References")]
-    [SerializeField] private Image _backgroundImage;
     [SerializeField] private Image _itemImage;
     [SerializeField] private TMP_Text _stackText;
 
     public readonly ReactiveProperty<Item> CurrentItem = new();
 
-    private DisposableBag _disposables = new();
     private int _itemsSlotCount;
 
-    private void OnDestroy()
+    public void Init(int slotId)
     {
-        _disposables.Dispose();
-    }
-
-    public void Init()
-    {
-        CurrentItem.Subscribe(_ => UpdateSlotData()).AddTo(ref _disposables);
+        SlotId = slotId;
+        CurrentItem.Subscribe(_ => UpdateSlotData());
     }
 
     public void SetItem(Item item, int itemAmount)
@@ -33,44 +29,26 @@ public class InventorySlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         CurrentItem.Value = item;
     }
 
-    public void ClearSlot()
-    {
-
-    }
-
-    public void OnItemDropped(Item item, int amount, Action<Item, int> onExcess)
-    {
-
-    }
-
-    public void OnBeginDrag(PointerEventData eventData)
-    {
-
-    }
-
-    public void OnDrag(PointerEventData eventData)
-    {
-
-    }
-
-    public void OnEndDrag(PointerEventData eventData)
-    {
-
-    }
-
     public int GetSlotAmount()
     {
         return _itemsSlotCount;
     }
 
-    private void HandleSlotSwap(InventorySlot targetSlot)
-    {
 
+    public void OnBeginDrag(PointerEventData eventData)
+    {
     }
 
+    public void OnDrag(PointerEventData eventData)
+    {
+    }
+
+    public void OnEndDrag(PointerEventData eventData)
+    {
+    }
     private void UpdateSlotData()
     {
-        _itemImage.sprite = CurrentItem.Value.Sprite;
+        _itemImage.sprite = CurrentItem.Value?.Sprite;
         _stackText.text = _itemsSlotCount > 1 ? _itemsSlotCount.ToString() : "";
     }
 }
