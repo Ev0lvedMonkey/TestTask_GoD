@@ -14,12 +14,14 @@ public enum ItemType
 
 public abstract class Item : ScriptableObject
 {
+    [SerializeField] private int _itemID;
     [SerializeField] private string _name;
     [SerializeField] private float _weight;
     [SerializeField] private int _maxStackAmount;
     [SerializeField] private Sprite _sprite;
     [SerializeField] private ItemType _type;
 
+    public int ID => _itemID;
     public int MaxStackAmount => _maxStackAmount;
     public string Name => _name;
     public Sprite Sprite => _sprite;

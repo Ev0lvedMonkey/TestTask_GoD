@@ -1,91 +1,77 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class InventoryManager : MonoBehaviour
 {
-    public List<InventorySlot> Slots;
-    public ItemDataList Database;
-    public GameObject DraggedItemIcon;
+    [SerializeField] private List<InventorySlot> _slotsList;
+    [SerializeField] private ItemDataList _itemDataList;
 
-    private Item draggedItem;
-    private int draggedAmount;
-    private InventorySlot originalSlot;
-
-    void Start()
+    private void Awake()
     {
-        if (Database != null && Database.Items.Count > 0 && Slots.Count > 0)
+        Init();
+        SetDefaultItem();
+        LogItemTypeAndSlotAmount();
+    }
+
+    private void LogItemTypeAndSlotAmount()
+    {
+        Dictionary<ItemType, int> itemTypeCounts = new();
+
+        foreach (var slot in _slotsList)
         {
-            Slots[0].SetItem(Database.Items[0], 1);
-            Slots[2].SetItem(Database.Items[0], 1);
+            if (slot.CurrentItem.Value == null)
+                continue;
+
+            var itemType = slot.CurrentItem.Value.Type;
+            var amount = slot.GetSlotAmount();
+
+            if (itemTypeCounts.ContainsKey(itemType))
+                itemTypeCounts[itemType] += amount;
+            else
+                itemTypeCounts[itemType] = amount;
+        }
+
+        foreach (var entry in itemTypeCounts)
+        {
+            Debug.Log($"Item Type: {entry.Key}, Total Count: {entry.Value}");
         }
     }
 
-    void Update()
+    public void SetItemToSlot(int slotIndex, ItemType itemType, int amount = -1)
     {
-        if (draggedItem != null)
-        {
-            DraggedItemIcon.transform.position = Input.mousePosition;
-        }
-    }
-
-    public void StartDragging(Item item, int amount, InventorySlot origin)
-    {
-        draggedItem = item;
-        draggedAmount = amount;
-        originalSlot = origin;
-
-        DraggedItemIcon.GetComponent<Image>().sprite = item.Sprite;
-        DraggedItemIcon.SetActive(true);
-        origin.ClearSlot();
-    }
-
-    public void StopDragging()
-    {
-        if (draggedItem == null) return;
-
-        // Проверяем, наведён ли курсор на слот
-        InventorySlot slotUnderCursor = GetSlotUnderCursor();
-        if (slotUnderCursor != null)
-        {
-            slotUnderCursor.OnItemDropped(draggedItem, draggedAmount, HandleExcessItems);
-        }
+        if (_itemDataList == null || _itemDataList.Items.Count < 0 || _slotsList.Count < 0)
+            return;
+        Item item = GetItemByType(itemType);
+        if (amount == -1)
+            _slotsList[slotIndex].SetItem(item, item.MaxStackAmount);
         else
-        {
-            // Возвращаем предмет в исходный слот, если не наведено на слот
-            originalSlot.SetItem(draggedItem, draggedAmount);
-        }
-
-        draggedItem = null;
-        draggedAmount = 0;
-        DraggedItemIcon.SetActive(false);
+            _slotsList[slotIndex].SetItem(item, amount);
     }
 
-    private InventorySlot GetSlotUnderCursor()
+    private void SetDefaultItem()
     {
-        foreach (var slot in Slots)
+        if (_itemDataList != null && _itemDataList.Items.Count > 0 && _slotsList.Count > 0)
         {
-            if (RectTransformUtility.RectangleContainsScreenPoint(
-                slot.GetComponent<RectTransform>(), Input.mousePosition))
-            {
-                return slot;
-            }
+            SetItemToSlot(0, ItemType.Helemt);
+            SetItemToSlot(1, ItemType.Jacket);
+            SetItemToSlot(3, ItemType.Pill);
+            SetItemToSlot(5, ItemType.PistolBulet);
+            SetItemToSlot(6, ItemType.ArmHelmet);
+            SetItemToSlot(7, ItemType.ArmJacket);
+            SetItemToSlot(11, ItemType.AKBullet);
         }
-        return null;
     }
 
-    private void HandleExcessItems(Item item, int excess)
+    private void Init()
     {
-        foreach (var slot in Slots)
-        {
-            if (slot.CurrentItem == null)
-            {
-                slot.SetItem(item, excess);
-                return;
-            }
-        }
+        foreach (InventorySlot slot in _slotsList)
+            slot.Init();
+    }
 
-        // Если нет свободных слотов, избыточные предметы уничтожаются
-        Debug.Log($"Excess items of {item.Name} were destroyed: {excess}");
+
+    private Item GetItemByType(ItemType itemType)
+    {
+        return _itemDataList.Items.FirstOrDefault(item => item.Type == itemType);
     }
 }

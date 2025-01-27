@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36563ac7842f87446bf2b7f0669c0170, type: 3}
   m_Name: PillItem
   m_EditorClassIdentifier: 
+  _itemID: 7
   _name: Pill
   _weight: 1
   _maxStackAmount: 6

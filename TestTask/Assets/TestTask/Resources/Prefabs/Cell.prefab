@@ -65,7 +65,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 000000
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -92,15 +92,15 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 15
-  m_fontSizeBase: 15
+  m_fontSize: 19
+  m_fontSizeBase: 19
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 1
-  m_HorizontalAlignment: 1
-  m_VerticalAlignment: 512
+  m_HorizontalAlignment: 4
+  m_VerticalAlignment: 1024
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
@@ -188,9 +188,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e06fae8487d2d9b43aa8e0ae298f02fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Background: {fileID: 3913111107345670321}
-  ItemIcon: {fileID: 4515606198676940224}
-  StackText: {fileID: 6318928810158977466}
+  _backgroundImage: {fileID: 3913111107345670321}
+  _itemImage: {fileID: 4515606198676940224}
+  _stackText: {fileID: 6318928810158977466}
 --- !u!225 &3634921778324917220
 CanvasGroup:
   m_ObjectHideFlags: 0

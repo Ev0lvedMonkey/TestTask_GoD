@@ -9,11 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 44baa107510bd464a852a5c4608dfa3a, type: 3}
-  m_Name: 545Bullet
+  m_Script: {fileID: 11500000, guid: dd0a9b242e189d4448c89c499ef80f46, type: 3}
+  m_Name: ArmHelmettem
   m_EditorClassIdentifier: 
-  _name: 5.45 Bullet
-  _weight: 0.03
-  _maxStackAmount: 100
-  _sprite: {fileID: 68192391173873663, guid: 2c4dcfcc2d373ce439d61fd3f02d432e, type: 3}
-  _type: 1
+  _itemID: 3
+  _name: Cap
+  _weight: 1
+  _maxStackAmount: 1
+  _sprite: {fileID: -5364337457034759519, guid: 334529d7164003b499ffe28deedd4a75, type: 3}
+  _type: 6
+  _defense: 10

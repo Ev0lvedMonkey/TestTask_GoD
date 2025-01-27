@@ -12,9 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2eaf42fea3716e4193d903b39d0409a, type: 3}
   m_Name: ArmJacket
   m_EditorClassIdentifier: 
+  _itemID: 4
   _name: Jacket
   _weight: 1
-  _maxStackAmount: 3
+  _maxStackAmount: 1
   _sprite: {fileID: -9063487758734070384, guid: 94274b98d50082d41b3e302d049beb59, type: 3}
   _type: 4
-  _defense: 3
+  _defense: 10

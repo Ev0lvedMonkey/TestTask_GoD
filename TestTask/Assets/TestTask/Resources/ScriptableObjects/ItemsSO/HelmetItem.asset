@@ -9,11 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 44baa107510bd464a852a5c4608dfa3a, type: 3}
-  m_Name: 9mBullet
+  m_Script: {fileID: 11500000, guid: dd0a9b242e189d4448c89c499ef80f46, type: 3}
+  m_Name: HelmetItem
   m_EditorClassIdentifier: 
-  _name: 9mm Bullet
-  _weight: 0.01
-  _maxStackAmount: 50
-  _sprite: {fileID: -4036813528274120218, guid: 97ed62bbea2ca524da8b447175ed6c25, type: 3}
-  _type: 0
+  _itemID: 5
+  _name: Cap
+  _weight: 0.1
+  _maxStackAmount: 1
+  _sprite: {fileID: -1112979873743293875, guid: 30d18238815b8a5478690bd4e35dcd85, type: 3}
+  _type: 5
+  _defense: 3

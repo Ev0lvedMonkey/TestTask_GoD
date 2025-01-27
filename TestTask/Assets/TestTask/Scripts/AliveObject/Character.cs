@@ -12,7 +12,7 @@ public class Character : AliveObject
     protected override void Awake()
     {
         base.Awake();
-        _enemy.AliveObjectHealthPoint.Skip(1).Subscribe(_ => TakeDamage(Damage));
+        _enemy.AliveObjectHealthPoint.Skip(2).Subscribe(_ => TakeDamage(Damage));
     }
 
     public override void TakeDamage(int damage)
