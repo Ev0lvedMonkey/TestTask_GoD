@@ -1,4 +1,5 @@
 ﻿using R3;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,12 +9,13 @@ public class WeaponView : MonoBehaviour
     [SerializeField] private WeaponType _weaponType;
 
     [Header("UI Elements")]
-    [SerializeField] private Image _pistolBackground;
-    [SerializeField] private Button _pistolButton;
-    [SerializeField] private Image _pistolIcon;
+    [SerializeField] private Image _weaponBackground;
+    [SerializeField] private Button _weaponButton;
+    [SerializeField] private Image _weaponIcon;
+    [SerializeField] private TextMeshProUGUI _weaponDamageText;
 
     private WeaponViewModel _viewModel;
-    private Sprite _weaponSprite;
+    private WeaponModel _weaponModel;
 
     private readonly Color UnselectedColor = Color.gray;
     private readonly Color SelectedColor = Color.green;
@@ -21,15 +23,16 @@ public class WeaponView : MonoBehaviour
     public void Init(WeaponViewModel viewModel)
     {
         _viewModel = viewModel;
-        _weaponSprite = _viewModel.WeaponDictionary[_weaponType].WeaponIcon;
+        _weaponModel  = _viewModel.WeaponDictionary[_weaponType];
         InitializeUI();
         BindViewModel();
     }
 
     private void InitializeUI()
     {
-        _pistolIcon.sprite = _weaponSprite;
-        _pistolButton.onClick.AddListener(() => _viewModel.SelectWeapon(_weaponType));
+        _weaponIcon.sprite = _weaponModel.WeaponIcon;
+        _weaponDamageText.text = _weaponModel.Damage.ToString();
+        _weaponButton.onClick.AddListener(() => _viewModel.SelectWeapon(_weaponType));
     }
 
     private void BindViewModel()
@@ -39,6 +42,6 @@ public class WeaponView : MonoBehaviour
 
     private void UpdateUI(WeaponModel weapon)
     {
-        _pistolBackground.color = weapon.WeaponType == _weaponType ? SelectedColor : UnselectedColor;
+        _weaponBackground.color = weapon.WeaponType == _weaponType ? SelectedColor : UnselectedColor;
     }
 }

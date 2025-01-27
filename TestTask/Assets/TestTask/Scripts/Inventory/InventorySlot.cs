@@ -29,6 +29,25 @@ public class InventorySlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         CurrentItem.Value = item;
     }
 
+    public void ReduceStackSize(int amount)
+    {
+        _itemsSlotCount -= amount;
+        if (_itemsSlotCount <= 0)
+        {
+            ClearSlot();
+        }
+        else
+        {
+            _stackText.text = _itemsSlotCount.ToString();
+        }
+    }
+
+    private void ClearSlot()
+    {
+        CurrentItem.Value = null;
+        Debug.LogWarning($"Slot {gameObject.name} was clear");
+    }
+
     public int GetSlotAmount()
     {
         return _itemsSlotCount;

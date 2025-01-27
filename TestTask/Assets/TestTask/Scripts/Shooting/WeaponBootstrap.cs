@@ -10,6 +10,7 @@ public class WeaponBootstrap : MonoBehaviour
 
     private WeaponViewModel _weaponViewModel;
     private Enemy _enemy;
+    private InventoryManager _inventoryManager;
 
     private const string WeaponDataFolder = "ScriptableObjects/WeaponsConfig";
 
@@ -21,15 +22,16 @@ public class WeaponBootstrap : MonoBehaviour
     private void Init()
     {
         WeaponDataList weaponDataList = Resources.Load<WeaponDataList>(WeaponDataFolder);
-        _weaponViewModel = new(weaponDataList, _enemy);
+        _weaponViewModel = new(weaponDataList, _inventoryManager, _enemy);
         foreach (var item in _weaponButtonsList) 
             item.Init(_weaponViewModel);
         _shootButton.onClick.AddListener(_weaponViewModel.Shoot);
     }
 
     [Inject]
-    private void Construct(Enemy enemy)
+    private void Construct(Enemy enemy, InventoryManager inventoryManager)
     {
         _enemy = enemy;
+        _inventoryManager = inventoryManager;
     }
 }

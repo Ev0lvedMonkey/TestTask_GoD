@@ -32,6 +32,19 @@ public class InventoryManager : MonoBehaviour
         SaveInventory();
     }
 
+    public InventorySlot FindAmmoSlot(ItemType ammoType)
+    {
+        foreach (var slot in _slotsList)
+        {
+            if (slot.CurrentItem.Value == null)
+                continue;
+            if (slot.CurrentItem.Value.Type != ammoType)
+                continue;
+            return slot;
+        }
+        return null;
+    }
+
     public void SaveInventory()
     {
         List<SlotData> slotDataList = new();
@@ -128,6 +141,7 @@ public class InventoryManager : MonoBehaviour
             SetItemToSlot(6, ItemType.ArmHelmet);
             SetItemToSlot(7, ItemType.ArmJacket);
             SetItemToSlot(11, ItemType.AKBullet);
+            SetItemToSlot(12, ItemType.AKBullet);
         }
     }
 

@@ -16,6 +16,8 @@ MonoBehaviour:
   - _weaponType: 0
     _weaponIcon: {fileID: 8994124770432013544, guid: 0eea993e3f7954349b7de93db6c823b8, type: 3}
     _damage: 5
+    _ammoType: 0
   - _weaponType: 1
     _weaponIcon: {fileID: -7122034313298620936, guid: e055fb901cc22ba44a0eb46454d2984c, type: 3}
     _damage: 9
+    _ammoType: 1
