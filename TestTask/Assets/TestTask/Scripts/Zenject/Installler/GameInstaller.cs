@@ -7,6 +7,7 @@ public class GameInstaller : MonoInstaller
     [SerializeField] private Enemy _enemy;
     [SerializeField] private InventoryManager _inventoryManager;
     [SerializeField] private Canvas _canvas;
+    [SerializeField] private GameOverUI _gameOverUI;
 
     public override void InstallBindings()
     {
@@ -14,6 +15,7 @@ public class GameInstaller : MonoInstaller
         Container.Bind<Enemy>().FromInstance(_enemy);
         Container.Bind<InventoryManager>().FromInstance(_inventoryManager);
         Container.Bind<Canvas>().FromInstance(_canvas);
+        Container.Bind<GameOverUI>().FromInstance(_gameOverUI);
 
     }
 }

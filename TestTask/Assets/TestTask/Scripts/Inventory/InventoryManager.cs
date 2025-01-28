@@ -16,13 +16,9 @@ public class InventoryManager : MonoBehaviour
     {
         Init();
         if (File.Exists(SaveFilePath))
-        {
             LoadInventory();
-        }
         else
-        {
             SetDefaultItem();
-        }
         //LogItemTypeAndSlotAmount();
 
     }
@@ -30,6 +26,14 @@ public class InventoryManager : MonoBehaviour
     private void OnApplicationQuit()
     {
         SaveInventory();
+    }
+
+    public void GetNewItem()
+    {
+        InventorySlot slot = _slotsList.FirstOrDefault(slot => slot.CurrentItem.Value == null);
+        Item randomItem = _itemDataList.Items[Random.Range(0, _itemDataList.Items.Count - 1)];
+        int randomItemAmount = Random.Range(0, randomItem.MaxStackAmount + 1);
+        slot.SetItem(randomItem, randomItemAmount);
     }
 
     public InventorySlot FindAmmoSlot(ItemType ammoType)
@@ -95,30 +99,6 @@ public class InventoryManager : MonoBehaviour
         Debug.Log("Inventory loaded successfully!");
     }
 
-    private void LogItemTypeAndSlotAmount()
-    {
-        Dictionary<ItemType, int> itemTypeCounts = new();
-
-        foreach (var slot in _slotsList)
-        {
-            if (slot.CurrentItem.Value == null)
-                continue;
-
-            var itemType = slot.CurrentItem.Value.Type;
-            var amount = slot.GetSlotAmount();
-
-            if (itemTypeCounts.ContainsKey(itemType))
-                itemTypeCounts[itemType] += amount;
-            else
-                itemTypeCounts[itemType] = amount;
-        }
-
-        foreach (var entry in itemTypeCounts)
-        {
-            Debug.Log($"Item Type: {entry.Key}, Total Count: {entry.Value}");
-        }
-    }
-
     public void SetItemToSlot(int slotIndex, ItemType itemType, int amount = -1)
     {
         if (_itemDataList == null || _itemDataList.Items.Count < 0 || _slotsList.Count < 0)
@@ -154,6 +134,29 @@ public class InventoryManager : MonoBehaviour
         }
     }
 
+    private void LogItemTypeAndSlotAmount()
+    {
+        Dictionary<ItemType, int> itemTypeCounts = new();
+
+        foreach (var slot in _slotsList)
+        {
+            if (slot.CurrentItem.Value == null)
+                continue;
+
+            var itemType = slot.CurrentItem.Value.Type;
+            var amount = slot.GetSlotAmount();
+
+            if (itemTypeCounts.ContainsKey(itemType))
+                itemTypeCounts[itemType] += amount;
+            else
+                itemTypeCounts[itemType] = amount;
+        }
+
+        foreach (var entry in itemTypeCounts)
+        {
+            Debug.Log($"Item Type: {entry.Key}, Total Count: {entry.Value}");
+        }
+    }
 
     private Item GetItemByType(ItemType itemType)
     {

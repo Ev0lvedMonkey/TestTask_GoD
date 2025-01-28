@@ -8,6 +8,7 @@ public class Character : AliveObject
     private Enemy _enemy;
     private Armor _headArmor;
     private Armor _torsoArmor;
+    private GameOverUI _gameOverUI;
 
     protected override void Awake()
     {
@@ -26,6 +27,12 @@ public class Character : AliveObject
         Debug.Log(isHeadshot
             ? $"Head hit! Reduced damage: {reducedDamage}"
             : $"Torso hit! Reduced damage: {reducedDamage}");
+    }
+
+    public override void Die()
+    {
+        base.Die();
+        _gameOverUI.Enable();
     }
 
     public void EquipHeadArmor(Armor armor)
@@ -52,8 +59,9 @@ public class Character : AliveObject
     }
 
     [Inject]
-    private void Construct(Enemy enemy)
+    private void Construct(Enemy enemy, GameOverUI gameOverUI)
     {
         _enemy = enemy;
+        _gameOverUI = gameOverUI;
     }
 }

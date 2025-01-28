@@ -51,7 +51,7 @@ public class InventorySlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
             _stackText.text = _itemsSlotCount.ToString();
     }
 
-    private void ClearSlot()
+    public void ClearSlot()
     {
         CurrentItem.Value = null;
         _itemsSlotCount = 0;
@@ -65,6 +65,11 @@ public class InventorySlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 
     public void OnBeginDrag(PointerEventData eventData)
     {
+        if (eventData.button != PointerEventData.InputButton.Left)
+        {
+
+            return;
+        }
         Debug.Log($"OnBeginDrag {gameObject.name}");
         if (CurrentItem.Value == null && _tempSLot == null)
             return;
@@ -74,6 +79,8 @@ public class InventorySlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 
     public void OnDrag(PointerEventData eventData)
     {
+        if (eventData.button != PointerEventData.InputButton.Left)
+            return;
         Debug.Log($"OnDrag {gameObject.name}");
         if (CurrentItem.Value == null && _tempSLot == null)
             return;
@@ -83,6 +90,8 @@ public class InventorySlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 
     public void OnEndDrag(PointerEventData eventData)
     {
+        if (eventData.button != PointerEventData.InputButton.Left)
+            return;
         Debug.Log($"OnEndDrag {gameObject.name}");
         ItemTransfer(eventData);
         UpdateSlotData();
