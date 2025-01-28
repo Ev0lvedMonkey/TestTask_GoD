@@ -1,12 +1,9 @@
 ﻿using R3;
-using System;
-using System.Security.Cryptography;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using Zenject;
-using static UnityEditor.Progress;
 
 public class InventorySlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
@@ -17,15 +14,18 @@ public class InventorySlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     [SerializeField] private TMP_Text _stackText;
 
     public readonly ReactiveProperty<Item> CurrentItem = new();
-    public const string TempSlotPrefabPath = "Prefabs/TempCell";
+    private const string TempSlotPrefabPath = "Prefabs/TempCell";
 
     private Canvas _canvas;
-    private int _itemsSlotCount;
+    private PopUpLoader _popUpLoader;
     private TempInventorySlot _tempSLot;
+    private int _itemsSlotCount;
 
-    public void Init(int slotId)
+    public void Init(int slotId, Canvas canvas, PopUpLoader popUpLoader)
     {
         SlotId = slotId;
+        _canvas = canvas;
+        _popUpLoader = popUpLoader;
         CurrentItem.Subscribe(_ => UpdateSlotData());
     }
 
@@ -67,7 +67,7 @@ public class InventorySlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     {
         if (eventData.button != PointerEventData.InputButton.Left)
         {
-
+            _popUpLoader.Load(this);
             return;
         }
         Debug.Log($"OnBeginDrag {gameObject.name}");
@@ -172,10 +172,5 @@ public class InventorySlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         _stackText.text = _itemsSlotCount > 1 ? _itemsSlotCount.ToString() : "";
     }
 
-    [Inject]
-    private void Construct(Canvas canvas)
-    {
-        _canvas = canvas;
-        Debug.Log($"Inject sucsess");
-    }
+
 }

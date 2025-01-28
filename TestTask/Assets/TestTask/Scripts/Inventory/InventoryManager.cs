@@ -2,7 +2,9 @@
 using System.IO;
 using System.Linq;
 using Newtonsoft.Json;
+using Unity.VisualScripting;
 using UnityEngine;
+using Zenject;
 
 public class InventoryManager : MonoBehaviour
 {
@@ -11,6 +13,9 @@ public class InventoryManager : MonoBehaviour
 
     private const string SaveFileName = "inventory.json";
     private string SaveFilePath => Path.Combine(Application.persistentDataPath, SaveFileName);
+
+    private PopUpLoader _popUpLoader;
+    private Canvas _canvas;
 
     private void Awake()
     {
@@ -127,10 +132,11 @@ public class InventoryManager : MonoBehaviour
 
     private void Init()
     {
+        _popUpLoader = new(_canvas);
         for (int i = 0; i < _slotsList.Count; i++)
         {
             InventorySlot slot = _slotsList[i];
-            slot.Init(i);
+            slot.Init(i, _canvas, _popUpLoader);
         }
     }
 
@@ -161,5 +167,12 @@ public class InventoryManager : MonoBehaviour
     private Item GetItemByType(ItemType itemType)
     {
         return _itemDataList.Items.FirstOrDefault(item => item.Type == itemType);
+    }
+
+    [Inject]
+    private void Construct(Canvas canvas)
+    {
+        _canvas = canvas;
+        Debug.Log($"Inject sucsess");
     }
 }
