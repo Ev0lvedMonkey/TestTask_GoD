@@ -1,10 +1,12 @@
 ﻿using R3;
 using System;
+using System.Security.Cryptography;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using Zenject;
+using static UnityEditor.Progress;
 
 public class InventorySlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
@@ -29,8 +31,15 @@ public class InventorySlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 
     public void SetItem(Item item, int itemAmount)
     {
-        _itemsSlotCount = itemAmount;
+        _itemsSlotCount = Mathf.Clamp(itemAmount, 0, item.MaxStackAmount);
         CurrentItem.Value = item;
+    }
+
+    public void SetItemAmount(int itemAmount)
+    {
+        _itemsSlotCount += itemAmount;
+        _itemsSlotCount = Mathf.Clamp(_itemsSlotCount, 0, CurrentItem.Value.MaxStackAmount);
+        UpdateSlotData();
     }
 
     public void ReduceStackSize(int amount)
@@ -84,11 +93,45 @@ public class InventorySlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     {
         InventorySlot hoveredSlot;
         if (eventData.pointerEnter.transform.parent.TryGetComponent(out InventorySlot slot))
-        { 
-            hoveredSlot = slot;
-            hoveredSlot.SetItem(CurrentItem.Value, _itemsSlotCount);
-            hoveredSlot.UpdateSlotData();
-            ClearSlot();
+        {
+            Item slotItem = slot.CurrentItem.Value;
+            if (slotItem == null)
+            {
+                hoveredSlot = slot;
+                hoveredSlot.SetItem(CurrentItem.Value, _itemsSlotCount);
+                hoveredSlot.UpdateSlotData();
+                ClearSlot();
+                return;
+            }
+            else
+            {
+                Item tempItem;
+                int tempSlotAmount;
+                if (slotItem.Type != CurrentItem.Value.Type)
+                {
+                    tempItem = slotItem;
+                    tempSlotAmount = slot.GetSlotAmount();
+                    slot.SetItem(CurrentItem.Value, _itemsSlotCount);
+                    SetItem(tempItem, tempSlotAmount);
+                    return;
+                }
+                else
+                {
+                    int slotItemAmount = slot.GetSlotAmount();
+                    int neededAmount = CurrentItem.Value.MaxStackAmount - slotItemAmount;
+                    bool canItTransfer = _itemsSlotCount >= neededAmount;
+                    if (canItTransfer)
+                    {
+                        ReduceStackSize(neededAmount);
+                        slot.SetItemAmount(neededAmount);
+                    }
+                    else
+                    {
+                        slot.SetItemAmount(_itemsSlotCount);
+                        ReduceStackSize(_itemsSlotCount);
+                    }
+                }
+            }
         }
         else return;
     }
