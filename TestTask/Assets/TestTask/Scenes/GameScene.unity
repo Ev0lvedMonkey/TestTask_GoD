@@ -902,6 +902,10 @@ PrefabInstance:
       propertyPath: canvas
       value: 
       objectReference: {fileID: 688911078}
+    - target: {fileID: 8551875787335615845, guid: e1283cae04292d34a95566d6dcd4d6a2, type: 3}
+      propertyPath: m_Name
+      value: ItemFill
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -4461,10 +4465,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7337555057135830323, guid: e1283cae04292d34a95566d6dcd4d6a2, type: 3}
-      propertyPath: canvas
-      value: 
-      objectReference: {fileID: 688911078}
+    - target: {fileID: 8551875787335615845, guid: e1283cae04292d34a95566d6dcd4d6a2, type: 3}
+      propertyPath: m_Name
+      value: ItemFill
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -5823,10 +5827,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7337555057135830323, guid: e1283cae04292d34a95566d6dcd4d6a2, type: 3}
-      propertyPath: canvas
-      value: 
-      objectReference: {fileID: 688911078}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -7645,6 +7645,7 @@ MonoBehaviour:
   _character: {fileID: 446985277}
   _enemy: {fileID: 2131187331}
   _inventoryManager: {fileID: 86992924}
+  _canvas: {fileID: 688911078}
 --- !u!4 &1576666446
 Transform:
   m_ObjectHideFlags: 0

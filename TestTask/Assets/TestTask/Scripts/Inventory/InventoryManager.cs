@@ -23,7 +23,7 @@ public class InventoryManager : MonoBehaviour
         {
             SetDefaultItem();
         }
-        LogItemTypeAndSlotAmount();
+        //LogItemTypeAndSlotAmount();
 
     }
 

@@ -4,6 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using Zenject;
 
 public class InventorySlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
@@ -14,8 +15,11 @@ public class InventorySlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     [SerializeField] private TMP_Text _stackText;
 
     public readonly ReactiveProperty<Item> CurrentItem = new();
+    public const string TempSlotPrefabPath = "Prefabs/TempCell";
 
+    private Canvas _canvas;
     private int _itemsSlotCount;
+    private TempInventorySlot _tempSLot;
 
     public void Init(int slotId)
     {
@@ -33,18 +37,15 @@ public class InventorySlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     {
         _itemsSlotCount -= amount;
         if (_itemsSlotCount <= 0)
-        {
             ClearSlot();
-        }
         else
-        {
             _stackText.text = _itemsSlotCount.ToString();
-        }
     }
 
     private void ClearSlot()
     {
         CurrentItem.Value = null;
+        _itemsSlotCount = 0;
         Debug.LogWarning($"Slot {gameObject.name} was clear");
     }
 
@@ -53,21 +54,76 @@ public class InventorySlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         return _itemsSlotCount;
     }
 
-
     public void OnBeginDrag(PointerEventData eventData)
     {
+        Debug.Log($"OnBeginDrag {gameObject.name}");
+        if (CurrentItem.Value == null && _tempSLot == null)
+            return;
+        InstantiateTempSlot();
+        EnableSlotComponents();
     }
 
     public void OnDrag(PointerEventData eventData)
     {
+        Debug.Log($"OnDrag {gameObject.name}");
+        if (CurrentItem.Value == null && _tempSLot == null)
+            return;
+        _tempSLot.RectTransform.anchoredPosition += eventData.delta / _canvas.scaleFactor;
+
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
+        Debug.Log($"OnEndDrag {gameObject.name}");
+        ItemTransfer(eventData);
+        UpdateSlotData();
+        DestroyTempSlot();
     }
+
+    private void ItemTransfer(PointerEventData eventData)
+    {
+        InventorySlot hoveredSlot;
+        if (eventData.pointerEnter.transform.parent.TryGetComponent(out InventorySlot slot))
+        { 
+            hoveredSlot = slot;
+            hoveredSlot.SetItem(CurrentItem.Value, _itemsSlotCount);
+            hoveredSlot.UpdateSlotData();
+            ClearSlot();
+        }
+        else return;
+    }
+
+    private void InstantiateTempSlot()
+    {
+        TempInventorySlot tempSLot = Resources.Load<TempInventorySlot>(TempSlotPrefabPath);
+        _tempSLot = Instantiate(tempSLot, transform.position, Quaternion.identity, _canvas.transform);
+        _tempSLot.SetItem(CurrentItem.Value);
+    }
+
+    private void DestroyTempSlot()
+    {
+        if (_tempSLot == null)
+            return;
+        Destroy(_tempSLot.gameObject);
+        _tempSLot = null;
+    }
+
+    private void EnableSlotComponents()
+    {
+        _itemImage.sprite = null;
+        _stackText.text = "";
+    }
+
     private void UpdateSlotData()
     {
         _itemImage.sprite = CurrentItem.Value?.Sprite;
         _stackText.text = _itemsSlotCount > 1 ? _itemsSlotCount.ToString() : "";
+    }
+
+    [Inject]
+    private void Construct(Canvas canvas)
+    {
+        _canvas = canvas;
+        Debug.Log($"Inject sucsess");
     }
 }

@@ -40,8 +40,8 @@ public abstract class AliveObject : MonoBehaviour, IAlive
         AliveObjectHealthPoint.Value = IAlive.MaxHealthPoint;
         AliveObjectDie = AliveObjectHealthPoint.Select(amount => amount <= 0).ToReadOnlyReactiveProperty();
         AliveObjectDie.Where(isDead => isDead).Subscribe(_ => Die()).AddTo(ref _disposables);
-        AliveObjectHealthPoint.Subscribe(_ =>
-        Debug.Log($"{gameObject.name} changed HP. Now: {AliveObjectHealthPoint.Value} HP"));
+        //AliveObjectHealthPoint.Subscribe(_ =>
+        //Debug.Log($"{gameObject.name} changed HP. Now: {AliveObjectHealthPoint.Value} HP"));
     }
 }
 
