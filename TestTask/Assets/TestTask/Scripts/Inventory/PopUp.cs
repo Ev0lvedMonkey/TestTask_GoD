@@ -62,7 +62,7 @@ public class PopUp : MonoBehaviour
             _uniqButtonText.text = UniqTextDictionary[itemType];
         }
         _uniqButton.onClick.AddListener(() => UniqAction());
-        _removeItemButton.onClick.AddListener(() => _slot.ClearSlot());
+        _removeItemButton.onClick.AddListener(() => { _slot.ClearSlot(); Close(); });
         _closePopUpButton.onClick.AddListener(Close);
     }
 

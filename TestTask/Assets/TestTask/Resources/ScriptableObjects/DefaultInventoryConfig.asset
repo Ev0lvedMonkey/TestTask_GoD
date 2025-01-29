@@ -1,0 +1,105 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 240b611d4d97a784689915287c89f3f6, type: 3}
+  m_Name: DefaultInventoryConfig
+  m_EditorClassIdentifier: 
+  _defaultSlots:
+  - SlotId: 1
+    _itemType: 5
+    _isEmptySLot: 0
+  - SlotId: 2
+    _itemType: 3
+    _isEmptySLot: 0
+  - SlotId: 3
+    _itemType: 0
+    _isEmptySLot: 1
+  - SlotId: 4
+    _itemType: 2
+    _isEmptySLot: 0
+  - SlotId: 5
+    _itemType: 0
+    _isEmptySLot: 1
+  - SlotId: 6
+    _itemType: 0
+    _isEmptySLot: 0
+  - SlotId: 7
+    _itemType: 6
+    _isEmptySLot: 0
+  - SlotId: 8
+    _itemType: 4
+    _isEmptySLot: 0
+  - SlotId: 9
+    _itemType: 0
+    _isEmptySLot: 1
+  - SlotId: 10
+    _itemType: 0
+    _isEmptySLot: 1
+  - SlotId: 11
+    _itemType: 0
+    _isEmptySLot: 1
+  - SlotId: 12
+    _itemType: 1
+    _isEmptySLot: 0
+  - SlotId: 13
+    _itemType: 0
+    _isEmptySLot: 1
+  - SlotId: 14
+    _itemType: 0
+    _isEmptySLot: 1
+  - SlotId: 15
+    _itemType: 0
+    _isEmptySLot: 1
+  - SlotId: 16
+    _itemType: 0
+    _isEmptySLot: 1
+  - SlotId: 17
+    _itemType: 0
+    _isEmptySLot: 1
+  - SlotId: 18
+    _itemType: 0
+    _isEmptySLot: 1
+  - SlotId: 19
+    _itemType: 0
+    _isEmptySLot: 1
+  - SlotId: 20
+    _itemType: 0
+    _isEmptySLot: 1
+  - SlotId: 21
+    _itemType: 0
+    _isEmptySLot: 1
+  - SlotId: 22
+    _itemType: 0
+    _isEmptySLot: 1
+  - SlotId: 23
+    _itemType: 0
+    _isEmptySLot: 1
+  - SlotId: 24
+    _itemType: 0
+    _isEmptySLot: 1
+  - SlotId: 25
+    _itemType: 0
+    _isEmptySLot: 1
+  - SlotId: 26
+    _itemType: 0
+    _isEmptySLot: 1
+  - SlotId: 27
+    _itemType: 0
+    _isEmptySLot: 1
+  - SlotId: 28
+    _itemType: 0
+    _isEmptySLot: 1
+  - SlotId: 29
+    _itemType: 0
+    _isEmptySLot: 1
+  - SlotId: 30
+    _itemType: 0
+    _isEmptySLot: 1

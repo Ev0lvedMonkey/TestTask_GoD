@@ -9,6 +9,7 @@ public class InventoryManager : MonoBehaviour
 {
     [SerializeField] private List<Slot> _slotsList;
     [SerializeField] private ItemDataList _itemDataList;
+    [SerializeField] private DefaultInventoryConfig _defaultInventoryConfig;
 
     private const string SaveFileName = "inventory.json";
     private string SaveFilePath => Path.Combine(Application.persistentDataPath, SaveFileName);
@@ -26,7 +27,7 @@ public class InventoryManager : MonoBehaviour
         if (File.Exists(SaveFilePath))
             LoadInventory();
         else
-            SetDefaultItem();
+            LoadDefaultItem();
         //LogItemTypeAndSlotAmount();
 
     }
@@ -45,11 +46,11 @@ public class InventoryManager : MonoBehaviour
         newItem = _itemDataList.Items[Random.Range(0, _itemDataList.Items.Count - 1)];
         newItemAmount = Random.Range(0, newItem.MaxStackAmount + 1);
         slot.SetItem(newItem, newItemAmount);
-    }  
+    }
 
     public void GetNewItem(Item item)
     {
-        if(item == null)
+        if (item == null)
             return;
         Slot slot;
         int newItemAmount;
@@ -132,19 +133,37 @@ public class InventoryManager : MonoBehaviour
             _slotsList[slotIndex].SetItem(item, amount);
     }
 
-    private void SetDefaultItem()
+    private void LoadDefaultItem()
     {
-        if (_itemDataList != null && _itemDataList.Items.Count > 0 && _slotsList.Count > 0)
+        if (_defaultInventoryConfig == null || _defaultInventoryConfig.DefaultSlots == null)
         {
-            SetItemToSlot(0, ItemType.Helemt);
-            SetItemToSlot(1, ItemType.Jacket);
-            SetItemToSlot(3, ItemType.Pill);
-            SetItemToSlot(5, ItemType.PistolBulet);
-            SetItemToSlot(6, ItemType.ArmHelmet);
-            SetItemToSlot(7, ItemType.ArmJacket);
-            SetItemToSlot(11, ItemType.AKBullet);
-            SetItemToSlot(12, ItemType.AKBullet);
+            Debug.LogWarning("Default inventory config is missing or empty.");
+            return;
         }
+
+        foreach (var defaultSlot in _defaultInventoryConfig.DefaultSlots)
+        {
+            if (defaultSlot.SlotId < 1 || defaultSlot.SlotId > 30)
+            {
+                Debug.LogWarning($"SlotId {defaultSlot.SlotId} is out of valid range (1-30).");
+                continue;
+            }
+            if (defaultSlot.IsEmptySlot)
+                continue;
+            else
+                SetItemToSlot(defaultSlot.SlotId - 1, defaultSlot.ItemType);
+        }
+        //if (_itemDataList != null && _itemDataList.Items.Count > 0 && _slotsList.Count > 0)
+        //{
+        //    SetItemToSlot(0, ItemType.Helemt);
+        //    SetItemToSlot(1, ItemType.Jacket);
+        //    SetItemToSlot(3, ItemType.Pill);
+        //    SetItemToSlot(5, ItemType.PistolBulet);
+        //    SetItemToSlot(6, ItemType.ArmHelmet);
+        //    SetItemToSlot(7, ItemType.ArmJacket);
+        //    SetItemToSlot(11, ItemType.AKBullet);
+        //    SetItemToSlot(12, ItemType.AKBullet);
+        //}
     }
 
     private void Init()

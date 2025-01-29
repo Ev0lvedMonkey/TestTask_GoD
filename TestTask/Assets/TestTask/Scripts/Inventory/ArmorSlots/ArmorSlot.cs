@@ -25,6 +25,8 @@ public abstract class ArmorSlot : Slot, IPointerClickHandler
 
     public void EquipArmor(ArmorItem armorItem)
     {
+        if (CurrentItem.Value == _armorItem && CurrentItem.Value != null)
+            Unequip();
         CurrentItem.Value = armorItem;
         _armorItem = armorItem;
         _itemsSlotCount = 1;
@@ -34,8 +36,9 @@ public abstract class ArmorSlot : Slot, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        if (eventData.button == PointerEventData.InputButton.Right)
-            Unequip();
+        if (CurrentItem.Value == null || _armorItem == null)
+            return;
+        Unequip();
     }
 
     private void Unequip()

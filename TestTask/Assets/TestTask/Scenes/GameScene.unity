@@ -581,6 +581,7 @@ MonoBehaviour:
   - {fileID: 1084366439}
   - {fileID: 304113245}
   _itemDataList: {fileID: 11400000, guid: b0a750b95174e1647907f28fb3e69955, type: 2}
+  _defaultInventoryConfig: {fileID: 11400000, guid: 54c1a018fb1e12a409cd6aa704363db9, type: 2}
 --- !u!1001 &137168870
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3596,8 +3597,8 @@ Canvas:
   m_GameObject: {fileID: 688911075}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 0
-  m_Camera: {fileID: 0}
+  m_RenderMode: 1
+  m_Camera: {fileID: 1973549560}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
   m_ReceivesEvents: 1

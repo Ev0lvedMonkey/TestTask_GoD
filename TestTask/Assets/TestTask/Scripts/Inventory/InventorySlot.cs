@@ -36,10 +36,9 @@ public class InventorySlot : Slot, IBeginDragHandler, IDragHandler, IEndDragHand
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        if (eventData.button == PointerEventData.InputButton.Right)
-        {
-            _popUpLoader.Load(this);
-        }
+        if (CurrentItem.Value == null && _tempSLot == null)
+            return;
+        _popUpLoader.Load(this);
     }
 
     public void OnBeginDrag(PointerEventData eventData)

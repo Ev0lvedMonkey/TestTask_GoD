@@ -30,6 +30,7 @@ public abstract class Slot : MonoBehaviour
     {
         CurrentItem.Value = null;
         _itemsSlotCount = 0;
+        UpdateSlotData();
         Debug.LogWarning($"Slot {gameObject.name} was clear");
     }
 
