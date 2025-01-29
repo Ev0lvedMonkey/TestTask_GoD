@@ -9,13 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dd0a9b242e189d4448c89c499ef80f46, type: 3}
-  m_Name: ArmHelmettem
+  m_Script: {fileID: 11500000, guid: c2e0d249261132f4589762687d6e131b, type: 3}
+  m_Name: CapItem
   m_EditorClassIdentifier: 
-  _itemID: 3
   _name: Cap
-  _weight: 1
+  _weight: 0.1
   _maxStackAmount: 1
-  _sprite: {fileID: -5364337457034759519, guid: 334529d7164003b499ffe28deedd4a75, type: 3}
-  _type: 6
-  _defense: 10
+  _sprite: {fileID: -1112979873743293875, guid: 30d18238815b8a5478690bd4e35dcd85, type: 3}
+  _type: 5
+  _defense: 3

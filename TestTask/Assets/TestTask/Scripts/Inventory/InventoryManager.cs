@@ -2,19 +2,22 @@
 using System.IO;
 using System.Linq;
 using Newtonsoft.Json;
-using Unity.VisualScripting;
 using UnityEngine;
 using Zenject;
 
 public class InventoryManager : MonoBehaviour
 {
-    [SerializeField] private List<InventorySlot> _slotsList;
+    [SerializeField] private List<Slot> _slotsList;
     [SerializeField] private ItemDataList _itemDataList;
 
     private const string SaveFileName = "inventory.json";
     private string SaveFilePath => Path.Combine(Application.persistentDataPath, SaveFileName);
 
     private PopUpLoader _popUpLoader;
+
+    private HelmetArmorSlot _helmetArmorSlot;
+    private TorsoArmorSlot _torsoArmorSlot;
+    private Character _character;
     private Canvas _canvas;
 
     private void Awake()
@@ -33,15 +36,29 @@ public class InventoryManager : MonoBehaviour
         SaveInventory();
     }
 
-    public void GetNewItem()
+    public void GetRandomNewItem()
     {
-        InventorySlot slot = _slotsList.FirstOrDefault(slot => slot.CurrentItem.Value == null);
-        Item randomItem = _itemDataList.Items[Random.Range(0, _itemDataList.Items.Count - 1)];
-        int randomItemAmount = Random.Range(0, randomItem.MaxStackAmount + 1);
-        slot.SetItem(randomItem, randomItemAmount);
+        Item newItem;
+        Slot slot;
+        int newItemAmount;
+        slot = _slotsList.FirstOrDefault(slot => slot.CurrentItem.Value == null);
+        newItem = _itemDataList.Items[Random.Range(0, _itemDataList.Items.Count - 1)];
+        newItemAmount = Random.Range(0, newItem.MaxStackAmount + 1);
+        slot.SetItem(newItem, newItemAmount);
+    }  
+
+    public void GetNewItem(Item item)
+    {
+        if(item == null)
+            return;
+        Slot slot;
+        int newItemAmount;
+        slot = _slotsList.FirstOrDefault(slot => slot.CurrentItem.Value == null);
+        newItemAmount = Random.Range(0, item.MaxStackAmount + 1);
+        slot.SetItem(item, newItemAmount);
     }
 
-    public InventorySlot FindAmmoSlot(ItemType ammoType)
+    public Slot FindAmmoSlot(ItemType ammoType)
     {
         foreach (var slot in _slotsList)
         {
@@ -132,10 +149,10 @@ public class InventoryManager : MonoBehaviour
 
     private void Init()
     {
-        _popUpLoader = new(_canvas);
+        _popUpLoader = new(_canvas, _character, this, _torsoArmorSlot, _helmetArmorSlot);
         for (int i = 0; i < _slotsList.Count; i++)
         {
-            InventorySlot slot = _slotsList[i];
+            Slot slot = _slotsList[i];
             slot.Init(i, _canvas, _popUpLoader);
         }
     }
@@ -170,9 +187,12 @@ public class InventoryManager : MonoBehaviour
     }
 
     [Inject]
-    private void Construct(Canvas canvas)
+    private void Construct(Canvas canvas, Character character, TorsoArmorSlot torsoArmorSlot, HelmetArmorSlot helmetArmorSlot)
     {
         _canvas = canvas;
+        _character = character;
+        _helmetArmorSlot = helmetArmorSlot;
+        _torsoArmorSlot = torsoArmorSlot;
         Debug.Log($"Inject sucsess");
     }
 }

@@ -8,6 +8,10 @@ public class GameInstaller : MonoInstaller
     [SerializeField] private InventoryManager _inventoryManager;
     [SerializeField] private Canvas _canvas;
     [SerializeField] private GameOverUI _gameOverUI;
+    [SerializeField] private HelmetArmorSlot _helmetArmorSlot;
+    [SerializeField] private TorsoArmorSlot _torsoArmorSlot;
+
+
 
     public override void InstallBindings()
     {
@@ -16,6 +20,8 @@ public class GameInstaller : MonoInstaller
         Container.Bind<InventoryManager>().FromInstance(_inventoryManager);
         Container.Bind<Canvas>().FromInstance(_canvas);
         Container.Bind<GameOverUI>().FromInstance(_gameOverUI);
+        Container.Bind<HelmetArmorSlot>().FromInstance(_helmetArmorSlot);
+        Container.Bind<TorsoArmorSlot>().FromInstance(_torsoArmorSlot);
 
     }
 }

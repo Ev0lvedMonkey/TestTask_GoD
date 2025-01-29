@@ -45,6 +45,16 @@ public class Character : AliveObject
         _torsoArmor = armor;
     }
 
+    public void UnequipHeadArmor()
+    {
+        _headArmor = null;
+    }
+
+    public void UnequipTorsoArmor()
+    {
+        _torsoArmor = null;
+    }
+
     private int CalculateReducedDamage(int damage, bool isHeadshot)
     {
         if (isHeadshot && _headArmor != null)

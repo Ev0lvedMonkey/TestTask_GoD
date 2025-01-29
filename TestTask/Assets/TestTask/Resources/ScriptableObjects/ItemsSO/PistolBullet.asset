@@ -12,7 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44baa107510bd464a852a5c4608dfa3a, type: 3}
   m_Name: PistolBullet
   m_EditorClassIdentifier: 
-  _itemID: 1
   _name: 9mm Bullet
   _weight: 0.01
   _maxStackAmount: 50

@@ -190,6 +190,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SlotId: 0
   _itemImage: {fileID: 4515606198676940224}
+  _itemText: {fileID: 6318928810158977466}
+  _itemImage: {fileID: 4515606198676940224}
   _stackText: {fileID: 6318928810158977466}
 --- !u!225 &3634921778324917220
 CanvasGroup:

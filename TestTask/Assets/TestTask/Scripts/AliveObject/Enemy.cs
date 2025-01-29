@@ -12,7 +12,7 @@ public class Enemy : AliveObject
     public override void Die()
     {
         base.Die();
-        _inventoryManager.GetNewItem();
+        _inventoryManager.GetRandomNewItem();
     }
 
     public override void TakeDamage(int damage)

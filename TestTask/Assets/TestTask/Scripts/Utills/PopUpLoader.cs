@@ -3,12 +3,21 @@ using UnityEngine;
 public class PopUpLoader 
 {
     private PopUp _popUp;
+    private InventoryManager _inventoryManager;
+    private HelmetArmorSlot _helmetArmorSlot;
+    private TorsoArmorSlot _torsoArmorSlot;
+    private Character _character;
     private Canvas _canvas;
     private const string TempSlotPrefabPath = "Prefabs/ItemPopUp";
 
-    public PopUpLoader(Canvas canvas)
+    public PopUpLoader(Canvas canvas, Character character,
+        InventoryManager inventoryManager, TorsoArmorSlot torsoArmorSlot, HelmetArmorSlot helmetArmorSlot)
     {
+        _character = character;
         _canvas = canvas;
+        _inventoryManager = inventoryManager;
+        _helmetArmorSlot = helmetArmorSlot;
+        _torsoArmorSlot = torsoArmorSlot;
     }
 
     public void Load(InventorySlot slot)
@@ -27,7 +36,7 @@ public class PopUpLoader
             return;
         }
 
-        _popUp.Open(slot);
+        _popUp.Open(slot, _character, _inventoryManager, _torsoArmorSlot, _helmetArmorSlot);
     }
 
 }

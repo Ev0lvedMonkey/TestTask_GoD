@@ -173,7 +173,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &9118805584596227617
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1140,8 +1140,12 @@ MonoBehaviour:
   _itemImage: {fileID: 4626485553283364004}
   _closePopUpButton: {fileID: 2713011687106639076}
   _removeItemButton: {fileID: 535744506952346958}
+  _uniqButton: {fileID: 4977299472349435234}
+  _uniqButtonText: {fileID: 4949730987115116536}
   _itemNameText: {fileID: 2853913769627377347}
   _weightText: {fileID: 3073950645197549251}
+  _armorView: {fileID: 2019488897573473014}
+  _armorText: {fileID: 9032530309758277661}
 --- !u!1 &7273766117195327493
 GameObject:
   m_ObjectHideFlags: 0

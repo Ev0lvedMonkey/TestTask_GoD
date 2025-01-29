@@ -1,38 +1,21 @@
 ﻿using R3;
-using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.UI;
-using Zenject;
 
-public class InventorySlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
+public class InventorySlot : Slot, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerClickHandler
 {
-    public int SlotId;
-
-    [Header("UI References")]
-    [SerializeField] private Image _itemImage;
-    [SerializeField] private TMP_Text _stackText;
-
-    public readonly ReactiveProperty<Item> CurrentItem = new();
     private const string TempSlotPrefabPath = "Prefabs/TempCell";
 
     private Canvas _canvas;
     private PopUpLoader _popUpLoader;
     private TempInventorySlot _tempSLot;
-    private int _itemsSlotCount;
 
-    public void Init(int slotId, Canvas canvas, PopUpLoader popUpLoader)
+    public override void Init(int slotId, Canvas canvas, PopUpLoader popUpLoader)
     {
         SlotId = slotId;
         _canvas = canvas;
         _popUpLoader = popUpLoader;
         CurrentItem.Subscribe(_ => UpdateSlotData());
-    }
-
-    public void SetItem(Item item, int itemAmount)
-    {
-        _itemsSlotCount = Mathf.Clamp(itemAmount, 0, item.MaxStackAmount);
-        CurrentItem.Value = item;
     }
 
     public void SetItemAmount(int itemAmount)
@@ -48,28 +31,19 @@ public class InventorySlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         if (_itemsSlotCount <= 0)
             ClearSlot();
         else
-            _stackText.text = _itemsSlotCount.ToString();
+            _itemText.text = _itemsSlotCount.ToString();
     }
 
-    public void ClearSlot()
+    public void OnPointerClick(PointerEventData eventData)
     {
-        CurrentItem.Value = null;
-        _itemsSlotCount = 0;
-        Debug.LogWarning($"Slot {gameObject.name} was clear");
-    }
-
-    public int GetSlotAmount()
-    {
-        return _itemsSlotCount;
+        if (eventData.button == PointerEventData.InputButton.Right)
+        {
+            _popUpLoader.Load(this);
+        }
     }
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        if (eventData.button != PointerEventData.InputButton.Left)
-        {
-            _popUpLoader.Load(this);
-            return;
-        }
         Debug.Log($"OnBeginDrag {gameObject.name}");
         if (CurrentItem.Value == null && _tempSLot == null)
             return;
@@ -79,8 +53,6 @@ public class InventorySlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 
     public void OnDrag(PointerEventData eventData)
     {
-        if (eventData.button != PointerEventData.InputButton.Left)
-            return;
         Debug.Log($"OnDrag {gameObject.name}");
         if (CurrentItem.Value == null && _tempSLot == null)
             return;
@@ -90,12 +62,10 @@ public class InventorySlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        if (eventData.button != PointerEventData.InputButton.Left)
-            return;
         Debug.Log($"OnEndDrag {gameObject.name}");
         ItemTransfer(eventData);
-        UpdateSlotData();
         DestroyTempSlot();
+        UpdateSlotData();
     }
 
     private void ItemTransfer(PointerEventData eventData)
@@ -160,17 +130,9 @@ public class InventorySlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         _tempSLot = null;
     }
 
-    private void EnableSlotComponents()
-    {
-        _itemImage.sprite = null;
-        _stackText.text = "";
-    }
-
-    private void UpdateSlotData()
+    protected override void UpdateSlotData()
     {
         _itemImage.sprite = CurrentItem.Value?.Sprite;
-        _stackText.text = _itemsSlotCount > 1 ? _itemsSlotCount.ToString() : "";
+        _itemText.text = _itemsSlotCount > 1 ? _itemsSlotCount.ToString() : "";
     }
-
-
 }

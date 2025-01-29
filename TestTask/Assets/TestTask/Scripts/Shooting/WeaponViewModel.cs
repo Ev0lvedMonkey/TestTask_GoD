@@ -35,7 +35,7 @@ public class WeaponViewModel
     {
         if (SelectedWeapon.Value == null) return;
 
-        var ammoSlot = _inventoryManager.FindAmmoSlot(SelectedWeapon.Value.AmmoType);
+        InventorySlot ammoSlot = (InventorySlot)_inventoryManager.FindAmmoSlot(SelectedWeapon.Value.AmmoType);
         if (ammoSlot == null || ammoSlot.GetSlotAmount() <= 0)
         {
             Debug.LogWarning("No ammo available!");
